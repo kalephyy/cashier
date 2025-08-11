@@ -28,37 +28,51 @@ public class UserService {
     }
 
     private void readFile(){
+        try {
+            userServiceReader = new FileReader("user.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         BufferedReader bufferedReader = new BufferedReader(userServiceReader);
         List<String> stringList = bufferedReader.lines().toList();
         userList = new LinkedList<User>();
         for (String string:stringList){
             userList.add(parsingLineToUser(string));
         }
+        try {
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void writeFile() {
+        try {
+            userServiceWriter = new FileWriter("user.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         BufferedWriter bufferedWriter = new BufferedWriter(userServiceWriter);
         for (int i = 0; i < userList.size(); i++) {
             User user = userList.get(i);
             StringBuilder sb = new StringBuilder();
-                    sb.append(user.getUsername());
-                    sb.append("|");
-                    sb.append(user.getPassword());
-                    try {
-                            bufferedWriter.write(sb.toString());
-                            if (i < userList.size() - 1) {
-                                bufferedWriter.newLine();
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+            sb.append(user.getUsername());
+            sb.append("|");
+            sb.append(user.getPassword());
+            try {
+                bufferedWriter.write(sb.toString());
+                if (i < userList.size() - 1) {
+                    bufferedWriter.newLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         try {
             bufferedWriter.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
 
