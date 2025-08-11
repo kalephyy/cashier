@@ -30,11 +30,21 @@ public class StokService {
     }
 
     private void readFile(){
+        try {
+            StokServiceReader = new FileReader("stok.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         BufferedReader bufferedReader = new BufferedReader(StokServiceReader);
         List<String> stringList = bufferedReader.lines().toList();
         stokList = new LinkedList<>();
         for (String string: stringList){
             stokList.add(parsingLineToStok(string));
+        }
+        try {
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

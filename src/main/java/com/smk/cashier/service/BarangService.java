@@ -34,11 +34,21 @@ public class BarangService {
     }
 
     private void readFile(){
+        try {
+            barangServiceReader = new FileReader("barang.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         BufferedReader bufferedReader = new BufferedReader(barangServiceReader);
         List<String> stringList = bufferedReader.lines().toList();
         barangList = new LinkedList<>();
         for (String string: stringList) {
             barangList.add(parsingLineToBarang(string));
+        }
+        try {
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
